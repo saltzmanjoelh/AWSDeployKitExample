@@ -1,2 +1,3 @@
 # DeployExample
-Example of how to use AWSDeployKit within Xcode
+
+A description of this package.

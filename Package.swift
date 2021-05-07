@@ -12,19 +12,26 @@ let package = Package(
         ),
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
+        .package(url: "https://github.com/swift-server/swift-aws-lambda-runtime.git", .branch("main")),
+        .package(url: "https://github.com/apple/swift-nio", .branch("main")),
+        .package(url: "https://github.com/apple/swift-log", .branch("main")),
         .package(url: "https://github.com/saltzmanjoelh/AWSDeployKit", .branch("main")),
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "example-lambda",
-            dependencies: []),
+            dependencies: [
+                .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
+                .product(name: "NIO", package: "swift-nio"),
+                .product(name: "NIOHTTP1", package: "swift-nio"),
+                .product(name: "NIOFoundationCompat", package: "swift-nio"),
+                .product(name: "NIOConcurrencyHelpers", package: "swift-nio"),
+                .product(name: "Logging", package: "swift-log"),
+            ]),
         .target(
             name: "Deploy",
             dependencies: [
-                .product(name: "AWSDeployCore", package: "AWSDeployKit")
+                .product(name: "AWSDeployCore", package: "AWSDeployKit"),
             ]),
     ]
 )

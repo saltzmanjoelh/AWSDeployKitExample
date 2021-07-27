@@ -4,7 +4,7 @@ An example of how to use [aws-deploy-kit](https://github.com/saltzmanjoelh/aws-d
 
 ## TLDR
 
-Take a look at the `Deploy` target. The target will need some launch arguments. Edit the scheme by pressing cmd + shift + < and selecting the the `Deploy` target. Switch to the "Arguments" tab, then set the "Arguments Passed on Launch" as `-d /path/to/AWSDeployKitExample example-lambda -p`.
+Take a look at the `Deploy` target. The target will need some launch arguments. Edit the scheme by pressing cmd + shift + < and selecting the the `Deploy` target. Switch to the "Arguments" tab, then set the "Arguments Passed on Launch" as `build-and-publish -d /path/to/AWSDeployKitExample example-lambda `.
 
 ![Launch Arguments ]LaunchArguments.png)
 
@@ -13,11 +13,11 @@ Here are the detailed steps to setup a project like this.
 
 ### Create Your Package
 
-Create a new directory called `example-lambda`.
-`cd` into it.
-Create a new executable Swift package by specifying `--type executable`.
-Add a directory for the `Deploy` source code and create it's `main.swift` file.
-Open the project.
+* Create a new directory called `example-lambda`.
+* `cd` into it.
+* Create a new executable Swift package by specifying `--type executable`.
+* Add a directory for the `Deploy` source code and create it's `main.swift` file.
+* Open the project.
 
 ```shell
 mkdir example-lambda && \
@@ -139,7 +139,7 @@ Lambda.run { (context, request: String, callback: @escaping (Result<String, Erro
 
 You can take a look at the full list help by running `aws-deploy --help`. It's also listed [in the repo](https://github.com/saltzmanjoelh/aws-deploy-kit/blob/main/README.md).
 
-[LaunchArguments](LaunchArguments.png)
+![LaunchArguments](LaunchArguments.png)
 
 ## Build and Publish
 

@@ -7,6 +7,7 @@ An example of how to use [aws-deploy-kit](https://github.com/saltzmanjoelh/aws-d
 Utilities that are endpoint agnostic like datastore clients and language extensions.
 
 [AWSServices](Sources/Shared/AWSServices.swift): I like to group the services together. You'll find all the AWS services here.
+
 [Datastore](Sources/Shared/Datastore.swift): A super basic example of reading and writing to a datastore.
 
 ## Endpoints

@@ -4,9 +4,9 @@ An example of how to use [aws-deploy-kit](https://github.com/saltzmanjoelh/aws-d
 
 ## TLDR
 
-Take a look at the `Deploy` target. The target will need some launch arguments. Edit the scheme by pressing cmd + shift + < and selecting the the `Deploy` target. Switch to the "Arguments" tab, then set the "Arguments Passed on Launch" as `build-and-publish -d /path/to/AWSDeployKitExample example-lambda `.
+Take a look at the `Deploy` target. The target will need some launch arguments. Edit the scheme by pressing cmd + shift + < and selecting the the `Deploy` target. Switch to the "Arguments" tab, then set the "Arguments Passed on Launch" as `build-and-publish -d /path/to/AWSDeployKitExample`.
 
-![Launch Arguments ]LaunchArguments.png)
+![LaunchArguments](LaunchArguments.png)
 
 ## Setup
 Here are the detailed steps to setup a project like this.
@@ -133,11 +133,14 @@ Lambda.run { (context, request: String, callback: @escaping (Result<String, Erro
 * Switch your selected target in Xcode to `Deploy`.
 * Press `cmd` + `shift` + `<` to edit the scheme.
 * Add the `build-and-publish` command in the "Arguments Passed On Launch" section
-* Add the path to this project in the "Arguments Passed On Launch" section `-d /path/this/project/`.
+* Add the path to this project in the "Arguments Passed On Launch" section `-d /path/this/project/`. 
 * Make sure that Docker is running
 * Run the `Deploy` target. It will build and publish to AWS Lambda
 
+
 You can take a look at the full list help by running `aws-deploy --help`. It's also listed [in the repo](https://github.com/saltzmanjoelh/aws-deploy-kit/blob/main/README.md).
+
+You can either explicity choose which executable to publish (`example-lambda`) or let it publish all of them skipping the currently running executable. Since this example project has only one target other than the `Deploy` target (`example-lambda`), it will only publish that one. So, we could leave that target out.
 
 ![LaunchArguments](LaunchArguments.png)
 

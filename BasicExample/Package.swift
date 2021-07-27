@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "DeployExample",
+    name: "BasicExample",
     platforms: [
         .macOS(.v10_12)
     ],
@@ -12,6 +12,10 @@ let package = Package(
         .executable(
             name: "example-lambda",
             targets: ["example-lambda"]
+        ),
+        .executable(
+            name: "Deploy",
+            targets: ["Deploy"]
         ),
     ],
     dependencies: [
@@ -23,11 +27,19 @@ let package = Package(
             name: "example-lambda",
             dependencies: [
                 .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
-            ]),
+            ],
+            exclude: ["payload.json"]
+        ),
         .target(
             name: "Deploy",
             dependencies: [
                 .product(name: "AWSDeployCore", package: "aws-deploy-kit"),
             ]),
+        .testTarget(
+            name: "BasicExampleTests",
+            dependencies: [
+                
+            ]
+        ),
     ]
 )

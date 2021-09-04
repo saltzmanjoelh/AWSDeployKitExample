@@ -133,7 +133,7 @@ class AWSConfiguration {
                             "dynamodb:UpdateItem",
                             "dynamodb:GetRecords"
                         ],
-                        "Resource": "arn:aws:dynamodb:*:796145072238:table/%%FUNCTION_NAME%%"
+                        "Resource": "arn:aws:dynamodb:*:1234567890:table/%%FUNCTION_NAME%%"
                     }
                 ]
             }

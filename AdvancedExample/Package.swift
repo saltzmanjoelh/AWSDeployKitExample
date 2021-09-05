@@ -62,8 +62,7 @@ let package = Package(
                 "Shared",
                 .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
             ],
-            path: "./Sources/Endpoints/user",
-            exclude: ["README.md"]
+            path: "./Sources/Endpoints/user"
         ),
         // Lambdas which simply import their related library and run the endpoint
         .target(

@@ -36,10 +36,10 @@ let package = Package(
         
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto", .branch("main")),
-        .package(url: "https://github.com/swift-server/swift-aws-lambda-runtime.git", .branch("main")),
-        .package(url: "https://github.com/saltzmanjoelh/aws-deploy-kit", .branch("main")),
-        .package(url: "https://github.com/saltzmanjoelh/mocking", .branch("main")),
+        .package(url: "https://github.com/soto-project/soto", .upToNextMajor(from: "5.8.1")),
+        .package(url: "https://github.com/saltzmanjoelh/swift-aws-lambda-runtime.git", .upToNextMajor(from: "0.5.2")),
+        .package(url: "https://github.com/saltzmanjoelh/aws-deploy-kit", .upToNextMajor(from: "1.0.2")),
+        .package(url: "https://github.com/saltzmanjoelh/mocking", .upToNextMajor(from: "1.0.0")),
     ],
     targets: [
         // Utilities to share amoung the endpoints like database clients or language extensions

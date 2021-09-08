@@ -109,10 +109,20 @@ Let's add some minimal code to our Lamdba function. Replace the entire contents 
 
 ```swift
 
-import AWSLambdaRuntime
+ struct Request: Codable {
+    let name: String
+ }
+ struct Response: Codable {
+    let message: String
+ }
 
-Lambda.run { (context, request: String, callback: @escaping (Result<String, Error>) -> Void) in
-   callback(.success("Hello, \(request)"))
+struct ExampleHandler: EventLoopLambdaHandler {
+    typealias In = Request
+    typealias Out = Response
+    
+    func handle(event: Request, context: Lambda.Context) -> EventLoopFuture<Response> {
+        context.eventLoop.makeSucceededFuture(Response(message: "Hello, \(event.name)"))
+    }
 }
  ```
 
@@ -140,7 +150,7 @@ Lambda.run { (context, request: String, callback: @escaping (Result<String, Erro
 
 You can take a look at the full list help by running `aws-deploy --help`. It's also listed [in the repo](https://github.com/saltzmanjoelh/aws-deploy-kit/blob/main/README.md).
 
-You can either explicity choose which executable to publish (`example-lambda`) or let it publish all of them skipping the currently running executable. Since this example project has only one target other than the `Deploy` target (`example-lambda`), it will only publish that one. So, we could leave that target out.
+You can either explicity choose which executable to build (`example-lambda`) or let it build all of them, skipping the currently running executable (In our case the Deploy target). Since this example project has only one target other than the `Deploy` target (`example-lambda`), it will only publish that one. So, we could leave the target out of the run arguments.
 
 ![LaunchArguments](LaunchArguments.png)
 

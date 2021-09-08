@@ -19,8 +19,8 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-server/swift-aws-lambda-runtime.git", .branch("main")),
-        .package(url: "https://github.com/saltzmanjoelh/aws-deploy-kit", .branch("main")),
+        .package(url: "https://github.com/saltzmanjoelh/swift-aws-lambda-runtime.git", .upToNextMajor(from: "0.5.2")),
+        .package(url: "https://github.com/saltzmanjoelh/aws-deploy-kit", .upToNextMajor(from: "1.0.0")),
     ],
     targets: [
         .target(

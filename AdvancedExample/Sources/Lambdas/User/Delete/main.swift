@@ -1,0 +1,3 @@
+import User
+
+DeleteUserEndpoint.main()

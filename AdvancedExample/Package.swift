@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "AdvancedExample",
     platforms: [
-        .macOS(.v10_12)
+        .macOS(.v12)
     ],
     products: [
         // Utilities
@@ -23,6 +23,10 @@ let package = Package(
         .executable(
             name: "read-user",
             targets: ["read-user"]
+        ),
+        .executable(
+            name: "update-user",
+            targets: ["update-user"]
         ),
         .executable(
             name: "delete-user",
@@ -56,16 +60,17 @@ let package = Package(
         ),
         // The suite of User endpoints. We give each model and it's related endpoint functions
         // it's own library so that we can share it with other libraries.
+        // For example, a Authentication library could import the User library.
         .target(
             name: "User",
             dependencies: [
                 "Shared",
                 .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
             ],
-            path: "./Sources/Endpoints/user"
+            path: "./Sources/Endpoints/User"
         ),
         // Lambdas which simply import their related library and run the endpoint
-        .target(
+        .executableTarget(
             name: "create-user",
             dependencies: [
                 "Shared",
@@ -73,25 +78,34 @@ let package = Package(
                 .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
                 .product(name: "Mocking", package: "mocking"),
             ],
-            path: "./Sources/Lambdas/user/create"
+            path: "./Sources/Lambdas/User/Create"
         ),
-        .target(
+        .executableTarget(
             name: "read-user",
             dependencies: [
                 "Shared",
                 "User",
                 .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
             ],
-            path: "./Sources/Lambdas/user/read"
+            path: "./Sources/Lambdas/User/Read"
         ),
-        .target(
+        .executableTarget(
+            name: "update-user",
+            dependencies: [
+                "Shared",
+                "User",
+                .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
+            ],
+            path: "./Sources/Lambdas/User/Update"
+        ),
+        .executableTarget(
             name: "delete-user",
             dependencies: [
                 "Shared",
                 "User",
                 .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
             ],
-            path: "./Sources/Lambdas/user/delete"
+            path: "./Sources/Lambdas/User/Delete"
         ),
         // Test the suite of endpoints
         .testTarget(
@@ -107,7 +121,7 @@ let package = Package(
             ]
         ),
         // Deploy a specific suite of endpoints
-        .target(
+        .executableTarget(
             name: "DeployUserEndpoints",
             dependencies: [
                 "Shared",
@@ -118,7 +132,7 @@ let package = Package(
                 .product(name: "SotoDynamoDB", package: "soto"),
                 .product(name: "SotoIAM", package: "soto"),
             ],
-            path: "./Sources/Deployments/user"
+            path: "./Sources/Deployments/User"
         ),
             
     ]

@@ -6,39 +6,35 @@ import XCTest
 
 final class CreateUserTests: XCTestCase {
     
-    func testCreateUser() throws {
+    func testCreateUser() async throws {
+        let context = Context()
         // We use a MockDataStore so that we can customize the result
         let dataStore = MockDatastore<User>()
         dataStore.saveMock = { _ throws in
             // Don't throw, just return to simulate a success
         }
-        let endpoint = CreateUserEndpoint(dataStore: dataStore)
+        UserEnvironment.shared.dataStore = dataStore
+        let endpoint = try await CreateUserEndpoint(context: context.initContext)
+        let request: CreateUserRequest = .init(id: User.fixture.id, name: User.fixture.name, email: User.fixture.email)
         
-        let request: CreateUserRequest = .init(name: "Johnny Appleseed", email: "Johnny@test.com")
+        let user = try await endpoint.handle(event: request, context: context.lambdaContext)
         
-        endpoint.handleRequest(nil, request) { (result: Result<User, Error>) -> Void in
-            do {
-                let value = try result.get()
-                XCTAssertEqual(value.email, request.email)
-            } catch {
-                XCTFail("\(error)")
-            }
-        }
+        XCTAssertEqual(user.email, request.email)
     }
-    func testCreateUserHandlesFailures() throws {
+    func testCreateUserHandlesFailures() async throws {
+        let context = Context()
         // We use a MockDataStore so that we can customize the result
         let dataStore = MockDatastore<User>()
+        UserEnvironment.shared.dataStore = dataStore
         // The default action for create() is to throw
-        let endpoint = CreateUserEndpoint(dataStore: dataStore)
-        let request: CreateUserRequest = .init(name: "Johnny Appleseed", email: "Johnny@test.com")
+        let endpoint = try await CreateUserEndpoint(context: context.initContext)
+        let request: CreateUserRequest = .init(id: User.fixture.id, name: User.fixture.name, email: User.fixture.email)
 
-        endpoint.handleRequest(nil, request) { (result: Result<User, Error>) -> Void in
-            do {
-                _ = try result.get()
-                XCTFail("An error should have been thrown.")
-            } catch {
-                
-            }
+        do {
+            _ = try await endpoint.handle(event: request, context: context.lambdaContext)
+            XCTFail("An error should have been thrown.")
+        } catch {
+            
         }
     }
     

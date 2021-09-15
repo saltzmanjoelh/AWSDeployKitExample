@@ -7,16 +7,16 @@
 
 import Foundation
 
+@available(macOS 12.0, *)
 public struct CreateUserRequest: Codable {
+    public let id: String
     public let name: String
     public let email: String
-    public init(name: String,
+    public init(id: String,
+                name: String,
                 email: String) {
+        self.id = id
         self.name = name
         self.email = email
-    }
-    
-    public func payload() throws -> String {
-        return String(data: try JSONEncoder().encode(self), encoding: .utf8)!
     }
 }

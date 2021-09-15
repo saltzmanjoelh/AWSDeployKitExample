@@ -1,22 +1,25 @@
+//
+//  DeployUserEndpoints.swift
+//  
+//
+//  Created by Joel Saltzman on 9/8/21.
+//
+
 import Foundation
 import Shared
 import User
 import AWSDeployCore
 import ArgumentParser
 
-
-DeployUserEndpoints.main()
-
-// MARK: - DeployUserEndpoints
-
 struct DeployUserEndpoints: ParsableCommand {
 
     static let directoryHelp = """
-    The path to this package directory (AdvancedExample) should be in the args.
+    The path to this package directory (AdvancedExample) should be in the run args.
     
     Switch your selected target in Xcode to `DeployUserEndpoints`.
     Press `cmd` + `shift` + `<` to edit the scheme.
     Add the path to this project in the "Arguments Passed On Launch" section `/path/to/AWSDeployKitExample/AdvancedExample`.
+    Make sure that Docker is running and hit run in Xcode.
     """
     
     @Argument(help: "\(Self.directoryHelp)")
@@ -29,13 +32,14 @@ struct DeployUserEndpoints: ParsableCommand {
         
         // Make your list of tasks to perform
         let tasks: [DeploymentTask] = [
-//            CreateUserEndpoint.Deployment(),
-//            ReadUserEndpoint.Deployment(),
-            DeleteUserEndpoint.Deployment()
+            CreateUserDeploymentTask(),
+//            ReadUserDeploymentTask(),
+//            UpdateUserDeploymentTask(),
+//            DeleteUserDeploymentTask()
         ]
         
         // Make sure that the table exists first.
-        // You could do table migrations if you are using a SQL store.
+        // You could do table migrations if you are using an SQL store.
         let config = AWSConfiguration()
         do {
             try config.verifyDynamoTable()

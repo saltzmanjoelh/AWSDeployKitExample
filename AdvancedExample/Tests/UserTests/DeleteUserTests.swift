@@ -5,38 +5,33 @@ import XCTest
 
 final class DeleteUserTests: XCTestCase {
     
-    func testDeleteUser() throws {
+    func testDeleteUser() async throws {
+        let context = Context()
         // We use a MockDataStore so that we can customize the result
         let dataStore = MockDatastore<User>()
         dataStore.deleteMock = { (id: String) throws in
             // Don't throw, just return
         }
-        let endpoint = DeleteUserEndpoint(dataStore: dataStore)
-        
+        UserEnvironment.shared.dataStore = dataStore
+        let endpoint = try await DeleteUserEndpoint(context: context.initContext)
         let request: DeleteUserRequest = .init(id: UUID().uuidString)
         
-        endpoint.handleRequest(nil, request) { (result: Result<Void, Error>) -> Void in
-            do {
-                try result.get()
-            } catch {
-                XCTFail("\(error)")
-            }
-        }
+        try await endpoint.handle(event: request, context: context.lambdaContext)
     }
-    func testDeleteUserHandlesFailures() throws {
+    func testDeleteUserHandlesFailures() async throws {
+        let context = Context()
         // We use a MockDataStore so that we can customize the result
         let dataStore = MockDatastore<User>()
+        UserEnvironment.shared.dataStore = dataStore
         // The default action for delete() is to throw
-        let endpoint = DeleteUserEndpoint(dataStore: dataStore)
+        let endpoint = try await DeleteUserEndpoint(context: context.initContext)
         let request: DeleteUserRequest = .init(id: UUID().uuidString)
 
-        endpoint.handleRequest(nil, request) { (result: Result<Void, Error>) -> Void in
-            do {
-                _ = try result.get()
-                XCTFail("An error should have been thrown.")
-            } catch {
-                
-            }
+        do {
+            try await endpoint.handle(event: request, context: context.lambdaContext)
+            XCTFail("An error should have been thrown.")
+        } catch {
+            
         }
     }
     

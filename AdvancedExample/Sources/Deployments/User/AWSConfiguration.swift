@@ -19,6 +19,9 @@ enum DeploymentError: Error {
 }
 
 
+/// Ensures that our AWS backend is ready for deployments.
+/// by doing things like creating the dynamo table, creating IAM roles,
+/// updates polices, etc...
 class AWSConfiguration {
     
     var logger: Logger
